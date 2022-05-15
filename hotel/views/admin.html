@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/admin.css" />
+    <link rel="stylesheet" href="/css/checked.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <title>Hotel</title>
+  </head>
+  <body>
+    <div class="mod overlay"></div>
+    <div class="min_mod1">
+      <div class="inp">
+        <button class="btnC">X</button>
+        <label for=""> FirstName </label>
+        <input type="text" id="firstname" />
+        <label for=""> LastName </label>
+        <input type="text" id="lastname" />
+        <label for=""> Passport </label>
+        <input type="text" id="passport" />
+        <label for=""> RoomNumber </label>
+        <input type="number" id="roomnumber" />
+        <label for=""> Contact </label>
+        <input type="text" id="contact" />
+        <label for=""> Gender </label>
+        <select name="selectgender" id="sel">
+          <option value="1">male</option>
+          <option value="2">female</option>
+        </select>
+        <label for=""> Dedline </label>
+        <input type="date" id="dedline" />
+      </div>
+      <div class="button">
+        <button id="save1">Save</button>
+      </div>
+    </div>
+    <div class="min_mod2">
+      <div class="inp">
+        <button class="btnW">X</button>
+        <label for=""> FirstName </label>
+        <input type="text" id="firstnamew" />
+        <label for=""> LastName </label>
+        <input type="text" id="lastnamew" />
+        <label for=""> Passport </label>
+        <input type="text" id="passportw" />
+        <label for=""> WorkName </label>
+        <input type="text" id="workname" />
+        <label for=""> Contact </label>
+        <input type="number" id="contactw" />
+        <label for=""> Gender </label>
+        <select name="select" id="selectgender">
+          <option value="1">male</option>
+          <option value="2">female</option>
+        </select>
+        <label for=""> BirthDate </label>
+        <input type="date" id="birthdate" />
+      </div>
+      <div class="button">
+        <button id="save2">Save</button>
+      </div>
+    </div>
+    <div class="min_mod3">
+      <div class="inp">
+        <button class="btnR">X</button>
+        <label for=""> RoomNumber </label>
+        <input type="number" id="roomnumberr" />
+        <label for=""> RoomType </label>
+        <select name="select" id="selectroomtype">
+          <option value="1">gold</option>
+          <option value="2">silver</option>
+          <option value="3">bronse</option>
+        </select>
+        <label for=""> Bed </label>
+        <input type="number" id="selectbed" />
+        <label for=""> TV </label>
+        <select name="select" id="selecttv">
+          <option value="1">yes</option>
+          <option value="0">no</option>
+        </select>
+        <label for=""> Conditsioner </label>
+        <select name="select" id="selectcond">
+          <option value="1">yes</option>
+          <option value="0">no</option>
+        </select>
+        <label for=""> Other </label>
+        <input type="text" id="other" />
+        <label for=""> Price </label>
+        <input type="number" id="price" />
+      </div>
+      <div class="button">
+        <button id="save3">Save</button>
+      </div>
+    </div>
+    <section class="side">
+      <div class="sidebar">
+        <div class="wrapper__img__title">
+          <img class="logo" src="/img/reception.png" alt="reception" />
+          <h1 class="sidebar__title">Hotel</h1>
+          <ul class="sidebar__list">
+            <li class="sidebar__item">
+              <a href="#" class="sidebar__link">Customers</a>
+            </li>
+            <li class="sidebar__item">
+              <a href="#" class="sidebar__link">Workers</a>
+            </li>
+            <li class="sidebar__item">
+              <a href="#" class="sidebar__link">Rooms</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="side__right">
+          <div class="addsection">
+            <button id="addcustomer">Add Customers</button>
+            <button id="addworker">Add Worker</button>
+            <button id="addroom">Add Room</button>
+          </div>
+          <div class="side__input__wrapper">
+            <form>
+              <div class="filter">
+                <input type="search" placeholder="search" />
+                <input type="text" placeholder="passport" />
+                <input type="text" placeholder="number" />
+                <div class="checked">
+                  <div class="toggle">
+                    <input type="checkbox" class="check" />
+                    <b class="b switch"></b>
+                    <b class="b track"></b>
+                  </div>
+                </div>
+                <button><i class="bx bx-search-alt-2"></i></button>
+              </div>
+            </form>
+          </div>
+          <div class="render">
+            <table class="table table__wrapper">
+              <ul class="list_title">
+                <li scope="">Photo user</li>
+                <li scope="">First name</li>
+                <li scope="">Last name</li>
+                <li scope="">Room</li>
+                <li scope="">Contact</li>
+                <li scope="">Come date</li>
+                <li scope="">Left date</li>
+              </ul>
+              <ul class="list"></ul>
+            </table>
+          </div>
+          <div class="pagination">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination"></ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="/js/utils.js"></script>
+    <script src="/js/admin.js"></script>
+  </body>
+</html>

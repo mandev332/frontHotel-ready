@@ -1,0 +1,45 @@
+body {
+  box-sizing: border-box;
+  background-image: url("/img/hotel.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
+h3 {
+  height: 25px;
+  width: 250px;
+  color: crimson;
+}
+.main {
+  font-size: large;
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+  margin: 100px auto;
+  padding: 150px;
+}
+
+#login,
+#password {
+  width: 40%;
+  outline: none;
+  text-align: center;
+  margin-bottom: 20px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+}
+#submit {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#btnsign {
+  padding: 10px 30px;
+  border-radius: 8px;
+  border: ridge rgb(3, 3, 3) 2px;
+  background-color: rgb(229, 184, 78);
+  color: rgb(7, 7, 7);
+}
