@@ -6,9 +6,9 @@ const PORT = process.env.PORT || 4000;
 
 const app = express();
 
+app.use(express.static(path.join(process.cwd(), "public")));
 app.engine("html", ejs.renderFile);
 app.set("view engine", "html");
-app.use(express.static(path.join(process.cwd(), "public")));
 app.set("views", path.join(process.cwd(), "views"));
 app.get("/login", (req, res) => res.render("login"));
 app.get("/customer", (req, res) => res.render("customer"));

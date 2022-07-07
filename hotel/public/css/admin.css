@@ -159,6 +159,7 @@ img {
 .pagin {
   display: flex;
   text-align: center;
+  background-color: rgb(199, 225, 223);
   width: 20px;
   padding: 5px;
 }

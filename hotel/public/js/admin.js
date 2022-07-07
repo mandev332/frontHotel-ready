@@ -16,7 +16,6 @@ let list_title = document.querySelector(".list_title");
 const check = document.querySelector(".check");
 let pagination = document.querySelector(".pagination");
 const menu = document.querySelectorAll(".sidebar__item");
-let home = 0;
 
 addcustomer.addEventListener("click", () => {
   modal.style.display = "block";
@@ -46,8 +45,7 @@ save1.onclick = async (e) => {
     !lastname.value ||
     !passport.value ||
     !roomnumber.value ||
-    !contact.value ||
-    !sel.value
+    !contact.value
   )
     return alert("You must enter all your info");
   let customer = {
@@ -62,6 +60,11 @@ save1.onclick = async (e) => {
   let response = await request("/customers", "POST", customer);
   if ((await response.status) == 200) {
     pushcustomers();
+    firstname.value = "";
+    lastname.value = "";
+    passport.value = "";
+    roomnumber.value = "";
+    contact.value = "";
     minmodal1.style.display = "none";
     modal.style.display = "none";
   } else alert(response.massage);
@@ -98,6 +101,12 @@ save2.onclick = async (e) => {
   let response = await request("/workers", "POST", worker);
   if ((await response.status) == 200) {
     pushworkers();
+    firstname.value = "";
+    lastname.value = "";
+    passport.value = "";
+    workname.value = "";
+    contact.value = "";
+    birthdate.value = "";
     minmodal2.style.display = "none";
     modal.style.display = "none";
   } else alert(response.massage);
@@ -125,6 +134,9 @@ save3.onclick = async (e) => {
   let response = await request("/rooms", "POST", newroom);
   if ((await response.status) == 200) {
     renderroom((await request(`/rooms?busy=0&page=1&limit=7`)).data);
+    roomnumber.value = "";
+    bed.value = "";
+    price.value = "";
     minmodal3.style.display = "none";
     modal.style.display = "none";
   } else alert(response.status);
@@ -163,7 +175,6 @@ for (let i of menu) {
 }
 
 function rendercustomer(arr) {
-  console.log(arr);
   list_title.innerHTML = `<ul class="list_title">
                               <li scope="">Photo user</li>
                               <li scope="">First name</li>
@@ -203,6 +214,10 @@ function rendercustomer(arr) {
     contact.textContent = "+998" + e.contact;
     come.textContent = e.come_date.split("T")[0];
     left.textContent = e.left_date ? e.left_date.split("T")[0] : "_____";
+    edit.onclick = (e) => {
+      e.preventDefault();
+      console.log(li);
+    };
     delet.onclick = async (even) => {
       even.preventDefault();
       let re = await request(`/customers/` + delet.id, "DELETE");
@@ -321,7 +336,7 @@ function renderroom(arr) {
       even.preventDefault();
       let re = await request(`/rooms/` + delet.id, "DELETE");
       renderroom(
-        (await request(`/rooms?busy=${+!check.checked}&page=1&limit=7`)).data
+        (await request(`/rooms?busy=${+check.checked}&page=1&limit=7`)).data
       );
     };
     li.append(clas, roomNumber, price, busy, bad, edit, delet);
@@ -331,7 +346,6 @@ function renderroom(arr) {
 
 async function pushcustomers() {
   {
-    home = 1;
     let res = await request(`/customers?left=1&page=1&limit=7`);
     rendercustomer(res.data);
     let [search, pasport, number, check, btn_search] = createElements(
@@ -369,37 +383,39 @@ async function pushcustomers() {
     filter.append(search, pasport, number, check, btn_search);
     let p = parseInt(res.pagin) + 1;
     pagination.innerHTML = "";
+    let page = 1;
     if (p > 2) {
       for (let i = 0; i <= p; i++) {
-        let li = document.createElement("a");
+        let li = document.createElement("button");
         li.className = "pagin";
         if (i == 0) li.textContent = "<";
         else if (i == p) li.textContent = ">";
         else li.textContent = i;
-        let page = 1;
         li.onclick = async (e) => {
           e.preventDefault();
-          if (e.textContent == ">") {
+          let pag_check = document.querySelector(".check");
+          if (li.textContent == ">" && page < p - 1) {
+            console.log(p);
             rendercustomer(
               (
                 await request(
-                  `/customers?left=${+!check.checked}&page=${page + 1}&limit=7`
+                  `/customers?left=${+!pag_check.checked}&page=${(page += 1)}&limit=7`
                 )
               ).data
             );
-          } else if (e.textContent == "<" && page > 1) {
+          } else if (li.textContent == "<" && page > 1) {
             rendercustomer(
               (
                 await request(
-                  `/customers?left=${+!check.checked}&page=${page - 1}&limit=7`
+                  `/customers?left=${+!pag_check.checked}&page=${(page -= 1)}&limit=7`
                 )
               ).data
             );
-          } else {
+          } else if (+li.textContent) {
             rendercustomer(
               (
                 await request(
-                  `/customers?left=${+!check.checked}&page=${
+                  `/customers?left=${+!pag_check.checked}&page=${
                     li.textContent
                   }&limit=7`
                 )
@@ -416,7 +432,6 @@ async function pushcustomers() {
 
 async function pushworkers() {
   {
-    home = 2;
     let res = await request(`/workers?end=1&page=1&limit=7`);
     renderworker(res.data);
     let [search, pasport, number, check, btn_search] = createElements(
@@ -444,7 +459,7 @@ async function pushworkers() {
       let response = await request(
         `/workers?name=${search.value.trim()}&passportInfo=${pasport.value.trim()}&contact=${number.value.trim()}&end=${+!check.checked}&page=1&limit=7`
       );
-      list.innerHTML = "";
+      // list.innerHTML = "";
       if (response.data.length) {
         renderworker(response.data);
       } else {
@@ -464,12 +479,12 @@ async function pushworkers() {
         else li.textContent = i;
         li.onclick = async (e) => {
           e.preventDefault();
-
+          let pag_check = document.querySelector(".check");
           if (li.textContent == ">" && page < p - 1) {
             renderworker(
               (
                 await request(
-                  `/workers?end=${+!check.checked}&page=${(page += 1)}&limit=7`
+                  `/workers?end=${+!pag_check.checked}&page=${(page += 1)}&limit=7`
                 )
               ).data
             );
@@ -478,7 +493,7 @@ async function pushworkers() {
             renderworker(
               (
                 await request(
-                  `/workers?end=${+!check.checked}&page=${(page -= 1)}&limit=7`
+                  `/workers?end=${+!pag_check.checked}&page=${(page -= 1)}&limit=7`
                 )
               ).data
             );
@@ -486,7 +501,7 @@ async function pushworkers() {
             renderworker(
               (
                 await request(
-                  `/workers?end=${+!check.checked}&page=${
+                  `/workers?end=${+!pag_check.checked}&page=${
                     li.textContent
                   }&limit=7`
                 )
@@ -503,7 +518,6 @@ async function pushworkers() {
 
 async function pushrooms() {
   {
-    home = 3;
     let res = await request(`/rooms?busy=1&page=1&limit=7`);
     renderroom(res.data);
     let [br, bd, number, check, btn_search] = createElements(
@@ -531,7 +545,7 @@ async function pushrooms() {
       let response = await request(
         `/rooms?roomNumber=${number.value.trim()}&busy=${+!check.checked}&page=1&limit=7`
       );
-      list.innerHTML = "";
+      // list.innerHTML = "";
       if (response.data.length) {
         renderroom(response.data);
       } else {
@@ -551,11 +565,12 @@ async function pushrooms() {
         else li.textContent = i;
         li.onclick = async (e) => {
           e.preventDefault();
-          if (e.textContent == ">" && page < p) {
+          let pag_check = document.querySelector(".check");
+          if (e.textContent == ">" && page < p - 1) {
             renderroom(
               (
                 await request(
-                  `/rooms?busy=${+!check.checked}&page=${page++}&limit=7`
+                  `/rooms?busy=${+!pag_check.checked}&page=${(page += 1)}&limit=7`
                 )
               ).data
             );
@@ -563,15 +578,15 @@ async function pushrooms() {
             renderroom(
               (
                 await request(
-                  `/rooms?busy=${+!check.checked}&page=${page--}&limit=7`
+                  `/rooms?busy=${+!pag_check.checked}&page=${(page -= 1)}&limit=7`
                 )
               ).data
             );
-          } else {
+          } else if (+li.textContent) {
             renderroom(
               (
                 await request(
-                  `/rooms?busy=${+!check.checked}&page=${
+                  `/rooms?busy=${+!pag_check.checked}&page=${
                     li.textContent
                   }&limit=7`
                 )
